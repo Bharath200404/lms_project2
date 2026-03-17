@@ -10,7 +10,7 @@ import { isEnrolled } from '@/lib/auth';
 import Link from 'next/link';
 
 type LearnPageProps = {
-  params: { courseId: string };
+  params: Promise<{ courseId: string }>;
 };
 
 export default function LearnPage({ params }: LearnPageProps) {
@@ -19,31 +19,36 @@ export default function LearnPage({ params }: LearnPageProps) {
 
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
   const [course, setCourse] = useState<any>(null);
+  const [courseId, setCourseId] = useState<string>('');
 
   useEffect(() => {
-    if (!user) {
-      router.push('/login');
-      return;
-    }
+    params.then(({ courseId }) => {
+      setCourseId(courseId);
 
-    if (!isEnrolled(user.email, params.courseId)) {
-      router.push('/courses');
-      return;
-    }
+      if (!user) {
+        router.push('/login');
+        return;
+      }
 
-    const courseData = getCourseById(params.courseId);
+      if (!isEnrolled(user.email, courseId)) {
+        router.push('/courses');
+        return;
+      }
 
-    if (!courseData) {
-      router.push('/courses');
-      return;
-    }
+      const courseData = getCourseById(courseId);
 
-    setCourse(courseData);
+      if (!courseData) {
+        router.push('/courses');
+        return;
+      }
 
-    if (courseData.sections[0]?.videos[0]) {
-      setSelectedVideo(courseData.sections[0].videos[0]);
-    }
-  }, [params.courseId, user, router]);
+      setCourse(courseData);
+
+      if (courseData.sections[0]?.videos[0]) {
+        setSelectedVideo(courseData.sections[0].videos[0]);
+      }
+    });
+  }, [params, user, router]);
 
   const handleVideoSelect = (video: Video) => {
     setSelectedVideo(video);
