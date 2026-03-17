@@ -123,7 +123,7 @@ export const courses: Course[] = [
         videos: [
           {
             title: "AWS Cloud Tutorial",
-            youtubeId: "HK_q1lH5x5M",
+            youtubeId: "SOTamWNgDKc",
           },
         ],
       },
