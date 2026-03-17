@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { courses } from '@/lib/courses';
 import CourseCard from '@/components/ui/CourseCard';
