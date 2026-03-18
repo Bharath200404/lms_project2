@@ -2,6 +2,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { courses } from '@/lib/courses';
 
 interface Message {
   id: string;
@@ -97,14 +98,26 @@ export default function Chatbot() {
   const generateFallbackResponse = (userMessage: string): string => {
     const lowerMessage = userMessage.toLowerCase();
 
+    // Check if user is asking about a specific course
+    const matchedCourse = courses.find((course) =>
+      lowerMessage.includes(course.title.toLowerCase()) ||
+      lowerMessage.includes(course.id.toLowerCase().replace(/-/g, ' '))
+    );
+
+    if (matchedCourse) {
+      return `Yes! We have "${matchedCourse.title}" available. ${matchedCourse.description} You can enroll from the Courses page!`;
+    }
+
+    // List all courses
+    if (lowerMessage.includes('list') || lowerMessage.includes('all course') || lowerMessage.includes('what course') || lowerMessage.includes('available')) {
+      const courseList = courses.map((c) => `• ${c.title}`).join('\n');
+      return `Here are all our available courses:\n\n${courseList}\n\nVisit the Courses page to enroll!`;
+    }
+
     // Course-related responses
     if (lowerMessage.includes('course') || lowerMessage.includes('learn')) {
-      const courses = [
-        'We offer courses in Data Science, Web Development, Machine Learning, Cloud Computing, and more! Each course is designed by industry experts.',
-        'Our courses include hands-on projects, video lectures, and real-world applications. Popular courses include Python, AWS, DevOps, and UI/UX Design.',
-        'You can explore our course catalog on the Courses page. We offer both free and premium courses to suit your learning needs.',
-      ];
-      return courses[Math.floor(Math.random() * courses.length)];
+      const courseList = courses.map((c) => c.title).join(', ');
+      return `We offer ${courses.length} courses: ${courseList}. Visit the Courses page to explore and enroll!`;
     }
 
     // Pricing responses
