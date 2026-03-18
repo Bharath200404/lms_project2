@@ -99,10 +99,14 @@ export default function Chatbot() {
     const lowerMessage = userMessage.toLowerCase();
 
     // Check if user is asking about a specific course
-    const matchedCourse = courses.find((course) =>
-      lowerMessage.includes(course.title.toLowerCase()) ||
-      lowerMessage.includes(course.id.toLowerCase().replace(/-/g, ' '))
-    );
+    const matchedCourse = courses.find((course) => {
+      const titleWords = course.title.toLowerCase().split(/[\s&,/]+/);
+      const idWords = course.id.toLowerCase().split('-');
+      return (
+        titleWords.some((word) => word.length > 2 && lowerMessage.includes(word)) ||
+        idWords.some((word) => word.length > 2 && lowerMessage.includes(word))
+      );
+    });
 
     if (matchedCourse) {
       return `Yes! We have "${matchedCourse.title}" available. ${matchedCourse.description} You can enroll from the Courses page!`;
