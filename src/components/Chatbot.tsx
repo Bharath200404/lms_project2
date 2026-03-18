@@ -112,6 +112,11 @@ export default function Chatbot() {
       return `Yes! We have "${matchedCourse.title}" available. ${matchedCourse.description} You can enroll from the Courses page!`;
     }
 
+    // Total number of courses
+    if (lowerMessage.includes('total') || lowerMessage.includes('how many') || lowerMessage.includes('number of')) {
+      return `We currently offer ${courses.length} courses in total! Type "list all courses" to see the full list.`;
+    }
+
     // List all courses
     if (lowerMessage.includes('list') || lowerMessage.includes('all course') || lowerMessage.includes('what course') || lowerMessage.includes('available')) {
       const courseList = courses.map((c) => `• ${c.title}`).join('\n');
