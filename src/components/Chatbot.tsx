@@ -112,6 +112,13 @@ export default function Chatbot() {
       return `Yes! We have "${matchedCourse.title}" available. ${matchedCourse.description} You can enroll from the Courses page!`;
     }
 
+    // If user seems to be asking about a course but it's not found
+    const courseInquiryWords = ['is', 'are', 'do you have', 'available', 'there', 'course', 'learn', 'teach'];
+    const isCourseQuery = courseInquiryWords.some((word) => lowerMessage.includes(word)) || lowerMessage.split(' ').length <= 4;
+    if (isCourseQuery) {
+      return `Sorry, we don't have a "${userMessage}" course yet. But we offer ${courses.length} courses including Data Science, Python, Machine Learning, AWS, Docker, DevOps, and more. Type "list all courses" to see everything!`;
+    }
+
     // Total number of courses
     if (lowerMessage.includes('total') || lowerMessage.includes('how many') || lowerMessage.includes('number of')) {
       return `We currently offer ${courses.length} courses in total! Type "list all courses" to see the full list.`;
