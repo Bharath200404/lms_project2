@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/components/ui/AuthContext";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
+import Chatbot from "@/components/Chatbot";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -30,6 +31,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <Chatbot />
         </AuthProvider>
       </body>
     </html>
