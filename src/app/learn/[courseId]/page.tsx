@@ -74,7 +74,7 @@ export default function LearnPage({ params }: LearnPageProps) {
       <div className="lg:col-span-3 p-12 max-w-6xl mx-auto">
 
         <Link
-          href="/"
+          href="/courses"
           className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6"
         >
           ← Back to Courses
